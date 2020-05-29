@@ -88,9 +88,19 @@ class UserController {
                 .json({error: msg.user.update.error.err_password_not_match});
         }
 
-        await user.update(req.body);
+        const newUser = await user.update(req.body);
 
-        return res.json({success: msg.user.update.success});
+        const newName = newUser.name;
+        const newEmail = newUser.email;
+
+        return res
+            .json({
+                success: msg.user.update.success,
+                user: {
+                    newName,
+                    newEmail
+                }
+            });
     }
 }
 

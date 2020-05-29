@@ -4,6 +4,8 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import TeacherController from './app/controllers/TeacherController';
 
+import GamesController from './app/controllers/GamesController';
+
 import BudgetGameRoomController from './app/controllers/BudgetGameRoomController';
 import BudgetGameSessionController from './app/controllers/BudgetGameSessionController';
 import BudgetGameController from './app/controllers/BudgetGameController';
@@ -22,6 +24,8 @@ routes.get('/', (req, res) => {
 
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
+
+routes.get('/games', GamesController.index);
 
 routes.post('/budget-game', BudgetGameSessionController.store);
 
