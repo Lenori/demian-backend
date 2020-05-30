@@ -20,7 +20,7 @@ import budgetGameAuth from './app/middlewares/budgetGameAuth';
 const routes = new Router();
 
 routes.get('/', (req, res) => {
-    return res.json({message: 'OK'});
+    return res.json({message: 'OK and online'});
 });
 
 routes.post('/users', UserController.store);
