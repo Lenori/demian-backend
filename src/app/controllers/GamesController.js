@@ -13,7 +13,8 @@ class GamesController {
         const game = {
             id: id,
             name: name,
-            create_room: 'budget-game-room'
+            create_room: 'budget-game-room',
+            play_room: 'budget-game'
         }
 
         games.push(game);

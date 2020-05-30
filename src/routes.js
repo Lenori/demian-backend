@@ -5,6 +5,7 @@ import SessionController from './app/controllers/SessionController';
 import TeacherController from './app/controllers/TeacherController';
 
 import GamesController from './app/controllers/GamesController';
+import RoomController from './app/controllers/RoomController';
 
 import BudgetGameRoomController from './app/controllers/BudgetGameRoomController';
 import BudgetGameSessionController from './app/controllers/BudgetGameSessionController';
@@ -33,6 +34,8 @@ routes.get('/budget-game', budgetGameAuth, BudgetGameController.index);
 routes.post('/budget-game/results', budgetGameAuth, BudgetGameResultsController.create);
 
 routes.use(authMiddleware);
+
+routes.post('/rooms', RoomController.index);
 
 routes.put('/users', UserController.update);
 

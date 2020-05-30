@@ -42,6 +42,7 @@ class BudgetGameSessionController {
             .status(200)
             .json({
                 success: msg.game_session.create.success,
+                game_ident: 'BUDGET_GAME',
                 token: jwt.sign({game}, auth.secret, {
                     expiresIn: auth.expiresIn
                     })

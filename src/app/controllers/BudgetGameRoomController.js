@@ -42,7 +42,7 @@ class BudgetGameRoomController {
                 .json({error: msg.room.create.error.err_user_not_teacher});
         }
 
-        await BudgetGameRoom.create({
+        const {id} = await BudgetGameRoom.create({
             game_id: req.body.game_id,
             teacher_id: req.userId,
             status: 0,
@@ -51,7 +51,12 @@ class BudgetGameRoomController {
 
         return res
             .status(200)
-            .json({success: msg.room.create.success})
+            .json({
+                success: msg.room.create.success,
+                room: {
+                    id: id
+                }
+            })
     }
 
     async update(req, res) {
