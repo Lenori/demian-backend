@@ -6,7 +6,7 @@ import cors from 'cors';
 import './database';
 
 const corsOptions = {
-    allowedHeaders: ['X-Game-Authorization', 'Authorization']
+    allowedHeaders: '*'
 }
 
 class App {
@@ -18,7 +18,7 @@ class App {
     }
 
     middlewares() {
-        this.server.use(cors());
+        this.server.use(cors(corsOptions));
         this.server.use(express.json());
         this.server.use(express.static('public'));
     }
