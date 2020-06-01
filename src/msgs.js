@@ -60,7 +60,7 @@ export default {
     game_auth: {
         read: {
             error: {
-                err_token_not_provided: 'Auth token for this game not provided.',
+                err_token_not_provided: 'Auth token for this game not sent.',
                 err_token_invalid: 'Auth token for this game invalid.',
                 err_game_invalid: 'Login invalid for this game.'
             }

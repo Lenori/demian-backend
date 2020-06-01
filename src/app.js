@@ -5,6 +5,10 @@ import cors from 'cors';
 
 import './database';
 
+const corsOptions = {
+    allowedHeaders: ['game_authorization']
+}
+
 class App {
     constructor() {
         this.server = express();
@@ -14,7 +18,7 @@ class App {
     }
 
     middlewares() {
-        this.server.use(cors());
+        this.server.use(cors(corsOptions));
         this.server.use(express.json());
         this.server.use(express.static('public'));
     }
