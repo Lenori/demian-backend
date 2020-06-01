@@ -18,7 +18,8 @@ class App {
     }
 
     middlewares() {
-        this.server.use(cors(corsOptions));
+        this.server.use(cors());
+        this.server.options('*', cors());
         this.server.use(express.json());
         this.server.use(express.static('public'));
     }
