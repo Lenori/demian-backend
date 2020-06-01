@@ -6,7 +6,7 @@ import cors from 'cors';
 import './database';
 
 const corsOptions = {
-    allowedHeaders: ['X-Game-Authorization']
+    allowedHeaders: ['X-Game-Authorization', 'Authorization']
 }
 
 class App {
