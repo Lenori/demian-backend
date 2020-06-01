@@ -11,7 +11,7 @@ const corsOptions = {
 
 class App {
     constructor() {
-        this.server = express();
+        this.server = express(corsOptions);
 
         this.middlewares();
         this.routes();
