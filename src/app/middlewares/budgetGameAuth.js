@@ -6,7 +6,7 @@ import authConfig from '../../config/gameAuth';
 import msgs from '../../msgs';
 
 export default async (req, res, next) => {
-    const auth = req.headers.game_authorization;
+    const auth = req.headers['X-Game-Authorization'];
 
     if (!auth) {
         return res
