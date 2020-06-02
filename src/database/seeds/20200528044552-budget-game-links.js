@@ -353,7 +353,7 @@ module.exports = {
       cost: 80,
       description: 'Shirt, dress or jeans',
       warning: null,
-      allow_frequency: true,
+      allow_frequency: false,
       created_at: new Date(),
       updated_at: new Date()
       },
@@ -363,7 +363,7 @@ module.exports = {
       cost: 50,
       description: 'Shirt, dress or jeans',
       warning: null,
-      allow_frequency: true,
+      allow_frequency: false,
       created_at: new Date(),
       updated_at: new Date()
       },
@@ -373,7 +373,7 @@ module.exports = {
       cost: 30,
       description: 'Shirt, dress or jeans',
       warning: null,
-      allow_frequency: true,
+      allow_frequency: false,
       created_at: new Date(),
       updated_at: new Date()
       }
