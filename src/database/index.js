@@ -7,10 +7,12 @@ import User from '../app/models/User';
 import BudgetGame from '../app/models/BudgetGame';
 import BudgetGameLinks from '../app/models/BudgetGameLinks';
 import BudgetGameLinksOptions from '../app/models/BudgetGameLinksOptions';
-
 import BudgetGameRoom from '../app/models/BudgetGameRoom';
 
-const models = [User, BudgetGame, BudgetGameLinks, BudgetGameLinksOptions, BudgetGameRoom];
+import SupplyGame from '../app/models/SupplyGame';
+import SupplyGameRoom from '../app/models/SupplyGameRoom';
+
+const models = [User, BudgetGame, BudgetGameLinks, BudgetGameLinksOptions, BudgetGameRoom, SupplyGame, SupplyGameRoom];
 
 class Database {
     constructor() {
