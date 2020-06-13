@@ -5,20 +5,29 @@ import cors from 'cors';
 
 import './database';
 
+const whitelist = ['localhost', 'http://localhost:3000', 'https://projectkaidan.com']
 const corsOptions = {
-    allowedHeaders: '*'
+    credentials: true,
+    allowedHeaders: '*',
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+        } else {
+        callback(null, true)
+        }
+    }
 }
 
 class App {
     constructor() {
-        this.server = express(corsOptions);
+        this.server = express();
 
         this.middlewares();
         this.routes();
     }
 
     middlewares() {
-        this.server.use(cors());
+        this.server.use(cors(corsOptions));
         this.server.options('*', cors());
         this.server.use(express.json());
         this.server.use(express.static('public'));

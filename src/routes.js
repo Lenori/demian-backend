@@ -40,7 +40,7 @@ routes.post('/budget-game/results', budgetGameAuth, BudgetGameResultsController.
 routes.post('/supply-game', SupplyGameSessionController.store);
 routes.get('/supply-game', supplyGameAuth, SupplyGameController.index);
 
-routes.use(authMiddleware);
+//routes.use(authMiddleware);
 
 routes.post('/rooms', RoomController.index);
 
@@ -52,7 +52,7 @@ routes.put('/budget-game-room', BudgetGameRoomController.update);
 routes.post('/supply-game-room', SupplyGameRoomController.store);
 routes.put('/supply-game-room', SupplyGameRoomController.update);
 
-routes.use(adminMiddleware);
+//routes.use(adminMiddleware);
 
 routes.get('/teachers', TeacherController.index);
 
