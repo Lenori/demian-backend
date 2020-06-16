@@ -46,6 +46,11 @@ export default {
                 err_user_not_authorized: 'You do not have permission to edit this room.'
             },
             success: 'Room updated successfully.'
+        },
+        show: {
+            error: {
+                err_room_not_exists: 'Room does not exist.'
+            }
         }
     },
     game_session: {

@@ -100,6 +100,35 @@ class SupplyGameRoomController {
             }
         });
     }
+
+    async show(req, res) {
+        const schema = Yup.object().shape({
+            room: Yup.number().required()
+        });
+
+        try {            
+            await schema.validate(req.params);
+        } catch(err) {
+            return res
+                .status(400)
+                .json({error: err.errors});
+        }
+        
+        const room = await SupplyGameRoom.findByPk(req.params.room);
+
+        if (!room) {
+            return res
+                .status(400)
+                .json({error: msg.room.show.error.err_room_not_exists});
+        }
+
+        let isOwner = false;
+
+        if (room.teacher_id == req.userId)
+            isOwner = true
+
+        return res.json({isOwner: isOwner, room: room});
+    }
 }
 
 export default new SupplyGameRoomController();
