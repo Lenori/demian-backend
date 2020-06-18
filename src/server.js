@@ -7,6 +7,11 @@ const rooms = [];
 const roomModel = {
     room_id: null,
     room_teacher: null,
+    results: [],
+    totalTeams: 0,
+    teamsReady: 0,
+    roundShirts: null,
+    stock: [],
     teams: [
         [   
             {name: '', id: ''},
@@ -51,6 +56,12 @@ const roomModel = {
     ]
 }
 
+const stockModel = {
+    team: null,
+    shirts: null,
+    price: null
+}
+
 io.on('connection', (client) => {
     client.on('playSupplyGame', data => {
         client.nick = data.nick;
@@ -76,6 +87,7 @@ io.on('connection', (client) => {
                 client.emit('capitain');
                 client.team = 1;
                 client.capitain = true; 
+                newRoom.totalTeams = newRoom.totalTeams + 1;
             }
 
             rooms.push(newRoom);
@@ -122,6 +134,7 @@ io.on('connection', (client) => {
                         client.team = myTeam;
                         
                         if (mySlot == 1) {
+                            room.totalTeams = room.totalTeams + 1;
                             client.capitain = true;
                             client.emit('capitain');
                         }
@@ -141,11 +154,111 @@ io.on('connection', (client) => {
     })
 
     client.on('gameStarting', () => {
+        rooms.map(room => {
+            if (room.room_id == client.room) {
+                room.teamsReady = 0;
+                room.stock = [];
+                room.roundShirts = 0;             
+            }
+        })
+
         client.to(`supply_game_${client.room}`).emit('gameStarting');
     });
 
     client.on('nextRound', () => {
+        rooms.map(room => {
+            if (room.room_id == client.room) {
+                room.teamsReady = 0;
+                room.stock = [];
+                room.roundShirts = 0;             
+            }
+        })
         client.to(`supply_game_${client.room}`).emit('nextRound');
+    });
+
+    client.on('lifeEvent', (data) => {
+        rooms.map(room => {
+            if (room.room_id == client.room) {
+                room.roundShirts = data.demandForShirts;
+            }
+        })
+
+        client.to(`supply_game_${client.room}`).emit('lifeEvent', data);
+    });
+
+    client.on('buyShirts', (data) => {
+        client.to(`supply_game_${client.room}`).emit('buyShirts', data);
+
+        rooms.map(room => {
+            if (room.room_id == client.room) {
+
+                const stock = {
+                    team: data.team,
+                    shirts: data.shirts,
+                    price: data.price
+                }
+
+                room.stock.push(stock);
+                room.teamsReady = room.teamsReady + 1;
+
+                if (room.teamsReady == room.totalTeams) {
+                    
+                    const pricing = room.stock.sort(function(a, b) {
+                        return parseFloat(a.price) - parseFloat(b.price);
+                    });
+
+                    let shirtDemand = room.roundShirts;                
+                    const report = [];
+
+                    pricing.map(team => {
+                        let sold = 0;
+                        if (shirtDemand > 0) {
+                            if (team.shirts >= shirtDemand) {
+                                sold = shirtDemand;
+                                shirtDemand = 0;
+                            } else {
+                                sold = team.shirts;
+                                shirtDemand = shirtDeman - team.shirts;
+                            }
+                        }                
+                        
+                        const sellReport = {
+                            team: team.team,
+                            sold: sold
+                        }
+
+                        report.push(sellReport);
+                    });
+
+                    client.emit('endRound', report);
+                    client.to(`supply_game_${client.room}`).emit('endRound', report);
+                }
+            }
+        })
+    });
+
+    client.on('endGame', () => {
+        client.to(`supply_game_${client.room}`).emit('endGame');
+    });
+
+    client.on('teamBank', (data) => {
+        rooms.map(room => {
+            if (room.room_id == client.room) {
+                
+                room.results.push(data);
+
+                if (room.results.length == room.totalTeams) {
+                    const ranking = room.results.sort(function(a, b) {
+                        return parseFloat(a.bank) - parseFloat(b.bank);
+                    });
+
+                    client.emit('gameReport', ranking);
+                    client.to(`supply_game_${client.room}`).emit('gameReport', ranking);
+                }
+            }
+        })
+
+        client.to(`supply_game_${client.room}`).emit('lifeEvent', data);
     });
 
     client.on('disconnect', function() {
