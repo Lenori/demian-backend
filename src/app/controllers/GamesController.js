@@ -41,6 +41,8 @@ class GamesController {
             play_room: 'supply-game'
         }
 
+        games.push(game2);
+
         const id3 = sunkGame[0].id;
         const name3 = sunkGame[0].name;
 
