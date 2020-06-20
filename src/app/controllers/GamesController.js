@@ -2,6 +2,7 @@ import User from '../models/User';
 
 import BudgetGame from '../models/BudgetGame';
 import SupplyGame from '../models/SupplyGame';
+import SunkGame from '../models/SunkGame';
 
 class GamesController {
     async index(req, res) {
@@ -12,6 +13,10 @@ class GamesController {
         });
 
         const supplyGame = await SupplyGame.findAll({
+            limit: 1
+        });
+
+        const sunkGame = await SunkGame.findAll({
             limit: 1
         });
 
@@ -36,7 +41,17 @@ class GamesController {
             play_room: 'supply-game'
         }
 
-        games.push(game2);
+        const id3 = sunkGame[0].id;
+        const name3 = sunkGame[0].name;
+
+        const game3 = {
+            id: id3,
+            name: name3,
+            create_room: 'sunk-game-room',
+            play_room: 'sunk-game'
+        }
+
+        games.push(game3);
 
         return res.json(games);
     }

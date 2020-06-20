@@ -12,7 +12,25 @@ import BudgetGameRoom from '../app/models/BudgetGameRoom';
 import SupplyGame from '../app/models/SupplyGame';
 import SupplyGameRoom from '../app/models/SupplyGameRoom';
 
-const models = [User, BudgetGame, BudgetGameLinks, BudgetGameLinksOptions, BudgetGameRoom, SupplyGame, SupplyGameRoom];
+import SunkGame from '../app/models/SunkGame';
+import SunkGameStocks from '../app/models/SunkGameStocks';
+import SunkGameRoom from '../app/models/SunkGameRoom';
+
+const models = [
+    User,
+    
+    BudgetGame,
+    BudgetGameLinks,
+    BudgetGameLinksOptions,
+    BudgetGameRoom,
+    
+    SupplyGame,
+    SupplyGameRoom,
+
+    SunkGame,
+    SunkGameStocks,
+    SunkGameRoom
+];
 
 class Database {
     constructor() {
