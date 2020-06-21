@@ -3,6 +3,7 @@ import User from '../models/User';
 import BudgetGame from '../models/BudgetGame';
 import SupplyGame from '../models/SupplyGame';
 import SunkGame from '../models/SunkGame';
+import BillGame from '../models/BillGame';
 
 class GamesController {
     async index(req, res) {
@@ -17,6 +18,10 @@ class GamesController {
         });
 
         const sunkGame = await SunkGame.findAll({
+            limit: 1
+        });
+
+        const billGame = await BillGame.findAll({
             limit: 1
         });
 
@@ -54,6 +59,18 @@ class GamesController {
         }
 
         games.push(game3);
+
+        const id4 = billGame[0].id;
+        const name4 = billGame[0].name;
+
+        const game4 = {
+            id: id4,
+            name: name4,
+            create_room: 'bill-game-room',
+            play_room: 'bill-game'
+        }
+
+        games.push(game4);
 
         return res.json(games);
     }

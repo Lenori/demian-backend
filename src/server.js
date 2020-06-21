@@ -3,64 +3,9 @@ import server from './app';
 const app = require('http').Server(server);
 const io = require('socket.io')(app);
 
-const rooms = [];
-const roomModel = {
-    room_id: null,
-    room_teacher: null,
-    results: [],
-    totalTeams: 0,
-    teamsReady: 0,
-    roundShirts: null,
-    stock: [],
-    teams: [
-        [   
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''}
-        ],
-        [
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''}
-        ],
-        [
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''}
-        ],
-        [
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''}
-        ],
-        [
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''},
-            {name: '', id: ''}
-        ]
-    ]
-}
+const fs = require('fs');
 
-const stockModel = {
-    team: null,
-    shirts: null,
-    price: null
-}
+let roomModel = fs.readFileSync('src/socket/supplygame/rooms/models/room.json');
 
 io.on('connection', (client) => {
     client.on('playSupplyGame', data => {
@@ -69,11 +14,14 @@ io.on('connection', (client) => {
         client.admin = data.admin;
 
         const players = io.sockets.adapter.rooms[`supply_game_${client.room}`];
+        console.log(players);
+        console.log(`supply_game_${client.room}`);
 
         if (players == undefined) {            
             client.join(`supply_game_${client.room}`);
+            console.log(io.sockets.adapter.rooms[`supply_game_${client.room}`]);
 
-            const newRoom = roomModel;
+            const newRoom = JSON.parse(roomModel);
 
             newRoom.room_id = client.room;
 
@@ -90,7 +38,10 @@ io.on('connection', (client) => {
                 newRoom.totalTeams = newRoom.totalTeams + 1;
             }
 
+            let rooms = [];
+            rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
             rooms.push(newRoom);
+            fs.writeFileSync('src/socket/supplygame/rooms/rooms.json', JSON.stringify(rooms, null, 2));
 
             client.emit('roomUpdate', newRoom.teams);
             client.to(`supply_game_${client.room}`).emit('roomUpdate', newRoom.teams);
@@ -103,6 +54,9 @@ io.on('connection', (client) => {
             let joined = false;
             let myTeam = null;
             let mySlot = null;
+
+            let rooms = [];
+            rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
 
             rooms.map((room, rIndex) => {
                 if (room.room_id == client.room) {
@@ -125,7 +79,8 @@ io.on('connection', (client) => {
                                     slot.id = client.id;
                                     joined = true;
                                     myTeam = rIndex + 1;
-                                    mySlot = sIndex + 1;                                
+                                    mySlot = sIndex + 1;     
+                                    console.log(rooms);                           
                                 }                           
                             })
                         })
@@ -145,8 +100,10 @@ io.on('connection', (client) => {
                 }
             })
             
-            if (joined)
+            if (joined) {
+                fs.writeFileSync('src/socket/supplygame/rooms/rooms.json', JSON.stringify(rooms, null, 2));
                 client.emit('success', `Welcome to room ${client.room}`);
+            }
         }
 
         else
@@ -154,6 +111,8 @@ io.on('connection', (client) => {
     })
 
     client.on('gameStarting', () => {
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
         rooms.map(room => {
             if (room.room_id == client.room) {
                 room.teamsReady = 0;
@@ -161,11 +120,14 @@ io.on('connection', (client) => {
                 room.roundShirts = 0;             
             }
         })
+        fs.writeFileSync('src/socket/supplygame/rooms/rooms.json', JSON.stringify(rooms, null, 2));
 
         client.to(`supply_game_${client.room}`).emit('gameStarting');
     });
 
     client.on('nextRound', () => {
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
         rooms.map(room => {
             if (room.room_id == client.room) {
                 room.teamsReady = 0;
@@ -173,15 +135,20 @@ io.on('connection', (client) => {
                 room.roundShirts = 0;             
             }
         })
+        fs.writeFileSync('src/socket/supplygame/rooms/rooms.json', JSON.stringify(rooms, null, 2));
+
         client.to(`supply_game_${client.room}`).emit('nextRound');
     });
 
     client.on('lifeEvent', (data) => {
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
         rooms.map(room => {
             if (room.room_id == client.room) {
                 room.roundShirts = data.demandForShirts;
             }
         })
+        fs.writeFileSync('src/socket/supplygame/rooms/rooms.json', JSON.stringify(rooms, null, 2));
 
         client.to(`supply_game_${client.room}`).emit('lifeEvent', data);
     });
@@ -189,6 +156,8 @@ io.on('connection', (client) => {
     client.on('buyShirts', (data) => {
         client.to(`supply_game_${client.room}`).emit('buyShirts', data);
 
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
         rooms.map(room => {
             if (room.room_id == client.room) {
 
@@ -235,13 +204,22 @@ io.on('connection', (client) => {
                 }
             }
         })
+        fs.writeFileSync('src/socket/supplygame/rooms/rooms.json', JSON.stringify(rooms, null, 2));
     });
 
     client.on('endGame', () => {
         client.to(`supply_game_${client.room}`).emit('endGame');
+
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
+
+        const index = rooms.filter(room => room.room_id = client.id);
+        rooms.splice(index, 1);
     });
 
     client.on('teamBank', (data) => {
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
         rooms.map(room => {
             if (room.room_id == client.room) {
                 
@@ -262,7 +240,9 @@ io.on('connection', (client) => {
     });
 
     client.on('disconnect', function() {
-        console.log(`${client.id} disconnected`);
+        console.log('user disconnected');
+        let rooms = [];
+        rooms = JSON.parse(fs.readFileSync('src/socket/supplygame/rooms/rooms.json'));
         rooms.map(room => {
             if (room.room_id == client.room) {
                 room.teams.map(team => {

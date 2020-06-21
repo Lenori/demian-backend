@@ -20,12 +20,17 @@ import SunkGameController from './app/controllers/SunkGameController';
 import SunkGameSessionController from './app/controllers/SunkGameSessionController';
 import SunkGameRoomController from './app/controllers/SunkGameRoomController';
 
+import BillGameController from './app/controllers/BillGameController';
+import BillGameSessionController from './app/controllers/BillGameSessionController';
+import BillGameRoomController from './app/controllers/BillGameRoomController';
+
 import authMiddleware from './app/middlewares/auth';
 import adminMiddleware from './app/middlewares/admin';
 
 import budgetGameAuth from './app/middlewares/budgetGameAuth';
 import supplyGameAuth from './app/middlewares/supplyGameAuth';
 import sunkGameAuth from './app/middlewares/sunkGameAuth';
+import billGameAuth from './app/middlewares/billGameAuth';
 
 const routes = new Router();
 
@@ -48,6 +53,9 @@ routes.get('/supply-game', supplyGameAuth, SupplyGameController.index);
 routes.post('/sunk-game', SunkGameSessionController.store);
 routes.get('/sunk-game', sunkGameAuth, SunkGameController.index);
 
+routes.post('/bill-game', BillGameSessionController.store);
+routes.get('/bill-game', billGameAuth, BillGameController.index);
+
 routes.use(authMiddleware);
 
 routes.post('/rooms', RoomController.index);
@@ -64,6 +72,10 @@ routes.put('/supply-game-room', SupplyGameRoomController.update);
 routes.get('/sunk-game-room/:room', SunkGameRoomController.show);
 routes.post('/sunk-game-room', SunkGameRoomController.store);
 routes.put('/sunk-game-room', SunkGameRoomController.update);
+
+routes.get('/bill-game-room/:room', BillGameRoomController.show);
+routes.post('/bill-game-room', BillGameRoomController.store);
+routes.put('/bill-game-room', BillGameRoomController.update);
 
 routes.use(adminMiddleware);
 

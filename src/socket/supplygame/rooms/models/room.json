@@ -1,0 +1,51 @@
+{
+    "room_id": null,
+    "room_teacher": null,
+    "results": [],
+    "totalTeams": 0,
+    "teamsReady": 0,
+    "roundShirts": null,
+    "stock": [],
+    "teams": [
+        [   
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""}
+        ],
+        [
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""}
+        ],
+        [
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""}
+        ],
+        [
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""}
+        ],
+        [
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""},
+            {"name": "", "id": ""}
+        ]
+    ]
+}

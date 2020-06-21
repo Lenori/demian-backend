@@ -16,6 +16,10 @@ import SunkGame from '../app/models/SunkGame';
 import SunkGameStocks from '../app/models/SunkGameStocks';
 import SunkGameRoom from '../app/models/SunkGameRoom';
 
+import BillGame from '../app/models/BillGame';
+import BillGameBills from '../app/models/BillGameBills';
+import BillGameRoom from '../app/models/BillGameRoom';
+
 const models = [
     User,
     
@@ -29,7 +33,11 @@ const models = [
 
     SunkGame,
     SunkGameStocks,
-    SunkGameRoom
+    SunkGameRoom,
+
+    BillGame,
+    BillGameBills,
+    BillGameRoom
 ];
 
 class Database {
