@@ -4,6 +4,8 @@ import BudgetGame from '../models/BudgetGame';
 import SupplyGame from '../models/SupplyGame';
 import SunkGame from '../models/SunkGame';
 import BillGame from '../models/BillGame';
+import BingoGame from '../models/BingoGame';
+import StocksGame from '../models/StocksGame';
 
 class GamesController {
     async index(req, res) {
@@ -22,6 +24,14 @@ class GamesController {
         });
 
         const billGame = await BillGame.findAll({
+            limit: 1
+        });
+
+        const bingoGame = await BingoGame.findAll({
+            limit: 1
+        });
+
+        const stocksGame = await StocksGame.findAll({
             limit: 1
         });
 
@@ -71,6 +81,30 @@ class GamesController {
         }
 
         games.push(game4);
+
+        const id5 = bingoGame[0].id;
+        const name5 = bingoGame[0].name;
+
+        const game5 = {
+            id: id5,
+            name: name5,
+            create_room: 'bingo-game-room',
+            play_room: 'bingo-game'
+        }
+
+        games.push(game5);
+
+        const id6 = stocksGame[0].id;
+        const name6 = stocksGame[0].name;
+
+        const game6 = {
+            id: id6,
+            name: name6,
+            create_room: 'stocks-game-room',
+            play_room: 'stocks-game'
+        }
+
+        games.push(game6);
 
         return res.json(games);
     }

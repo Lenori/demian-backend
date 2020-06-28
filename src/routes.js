@@ -24,6 +24,14 @@ import BillGameController from './app/controllers/BillGameController';
 import BillGameSessionController from './app/controllers/BillGameSessionController';
 import BillGameRoomController from './app/controllers/BillGameRoomController';
 
+import BingoGameController from './app/controllers/BingoGameController';
+import BingoGameSessionController from './app/controllers/BingoGameSessionController';
+import BingoGameRoomController from './app/controllers/BingoGameRoomController';
+
+import StocksGameController from './app/controllers/StocksGameController';
+import StocksGameSessionController from './app/controllers/StocksGameSessionController';
+import StocksGameRoomController from './app/controllers/StocksGameRoomController';
+
 import authMiddleware from './app/middlewares/auth';
 import adminMiddleware from './app/middlewares/admin';
 
@@ -31,6 +39,8 @@ import budgetGameAuth from './app/middlewares/budgetGameAuth';
 import supplyGameAuth from './app/middlewares/supplyGameAuth';
 import sunkGameAuth from './app/middlewares/sunkGameAuth';
 import billGameAuth from './app/middlewares/billGameAuth';
+import bingoGameAuth from './app/middlewares/bingoGameAuth';
+import stocksGameAuth from './app/middlewares/stocksGameAuth';
 
 const routes = new Router();
 
@@ -56,6 +66,12 @@ routes.get('/sunk-game', sunkGameAuth, SunkGameController.index);
 routes.post('/bill-game', BillGameSessionController.store);
 routes.get('/bill-game', billGameAuth, BillGameController.index);
 
+routes.post('/bingo-game', BingoGameSessionController.store);
+routes.get('/bingo-game', bingoGameAuth, BingoGameController.index);
+
+routes.post('/stocks-game', StocksGameSessionController.store);
+routes.get('/stocks-game', stocksGameAuth, StocksGameController.index);
+
 routes.use(authMiddleware);
 
 routes.post('/rooms', RoomController.index);
@@ -76,6 +92,14 @@ routes.put('/sunk-game-room', SunkGameRoomController.update);
 routes.get('/bill-game-room/:room', BillGameRoomController.show);
 routes.post('/bill-game-room', BillGameRoomController.store);
 routes.put('/bill-game-room', BillGameRoomController.update);
+
+routes.get('/bingo-game-room/:room', BingoGameRoomController.show);
+routes.post('/bingo-game-room', BingoGameRoomController.store);
+routes.put('/bingo-game-room', BingoGameRoomController.update);
+
+routes.get('/stocks-game-room/:room', StocksGameRoomController.show);
+routes.post('/stocks-game-room', StocksGameRoomController.store);
+routes.put('/stocks-game-room', StocksGameRoomController.update);
 
 routes.use(adminMiddleware);
 

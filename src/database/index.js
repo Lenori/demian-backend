@@ -20,6 +20,15 @@ import BillGame from '../app/models/BillGame';
 import BillGameBills from '../app/models/BillGameBills';
 import BillGameRoom from '../app/models/BillGameRoom';
 
+import BingoGame from '../app/models/BingoGame';
+import BingoGameInfos from '../app/models/BingoGameInfos';
+import BingoGameQuestions from '../app/models/BingoGameQuestions';
+import BingoGameRoom from '../app/models/BingoGameRoom';
+
+import StocksGame from '../app/models/StocksGame';
+import StocksGameStocks from '../app/models/StocksGameStocks';
+import StocksGameRoom from '../app/models/StocksGameRoom';
+
 const models = [
     User,
     
@@ -37,7 +46,16 @@ const models = [
 
     BillGame,
     BillGameBills,
-    BillGameRoom
+    BillGameRoom,
+
+    BingoGame,
+    BingoGameInfos,
+    BingoGameQuestions,
+    BingoGameRoom,
+
+    StocksGame,
+    StocksGameStocks,
+    StocksGameRoom
 ];
 
 class Database {

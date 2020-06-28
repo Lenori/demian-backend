@@ -167,7 +167,7 @@ io.on('connection', (client) => {
                         shirtDemand = 0;
                     } else {
                         sold = team.shirts;
-                        shirtDemand = shirtDeman - team.shirts;
+                        shirtDemand = shirtDemand - team.shirts;
                     }
                 }                
                 
