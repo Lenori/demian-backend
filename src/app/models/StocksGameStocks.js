@@ -4,7 +4,9 @@ class StocksGameStocks extends Model {
     static init(sequelize) {
         super.init({
             name: Sequelize.STRING,
-            code: Sequelize.STRING
+            code: Sequelize.STRING,
+            price: Sequelize.DECIMAL(9,2),
+            rate: Sequelize.DECIMAL(9,2)
         },
         {
             sequelize

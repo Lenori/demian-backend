@@ -6,12 +6,14 @@ const io = require('socket.io')(app);
 const fs = require('fs');
 
 let roomModel = fs.readFileSync('src/socket/supplygame/rooms/models/room.json');
+let stocksRoomModel = fs.readFileSync('src/socket/stocksgame/rooms/models/room.json');
 
 io.on('connection', (client) => {
     client.on('playSupplyGame', data => {
         client.nick = data.nick;
         client.room = data.room;
         client.admin = data.admin;
+        client.game = 'supply_game';
 
         const players = io.sockets.adapter.rooms[`supply_game_${client.room}`];
 
@@ -210,33 +212,145 @@ io.on('connection', (client) => {
     });
 
     client.on('disconnect', function() {
-        const players = io.sockets.adapter.rooms[`supply_game_${client.room}`];
+        if (client.game == 'supply_game') {
+            const players = io.sockets.adapter.rooms[`supply_game_${client.room}`];
 
-        if (players == undefined) {
-            if (client.room) {
-                fs.unlink(`src/socket/supplygame/rooms/${client.room}.json`, (err) => {if (err) throw err;})
-            }
-        } else {
-            let room = [];
-            room = JSON.parse(fs.readFileSync(`src/socket/supplygame/rooms/${client.room}.json`));
-            
-            if (client.admin) {
-                room.room_teacher = null;
+            if (players == undefined) {
+                if (client.room) {
+                    fs.unlink(`src/socket/supplygame/rooms/${client.room}.json`, (err) => {if (err) throw err;})
+                }
             } else {
-                room.teams.map(team => {
-                    team.map(slot => {
-                        if (slot.id == client.id) {
-                            slot.name = '';
-                            slot.id = '';
-                        }                           
+                let room = [];
+                room = JSON.parse(fs.readFileSync(`src/socket/supplygame/rooms/${client.room}.json`));
+                
+                if (client.admin) {
+                    room.room_teacher = null;
+                } else {
+                    room.teams.map(team => {
+                        team.map(slot => {
+                            if (slot.id == client.id) {
+                                slot.name = '';
+                                slot.id = '';
+                            }                           
+                        })
                     })
-                })
-            }            
-            
-            fs.writeFileSync(`src/socket/supplygame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
-            client.to(`supply_game_${client.room}`).emit('roomUpdate', room.teams);
-        }        
+                }            
+                
+                fs.writeFileSync(`src/socket/supplygame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+                client.to(`supply_game_${client.room}`).emit('roomUpdate', room.teams);
+            } 
+        }       
     })
+
+    client.on('playBingoGame', data => {
+        client.nick = data.nick;
+        client.room = data.room;
+        client.admin = data.admin;
+
+        client.join(`bingo_game_${client.room}`);
+        client.emit('bingo_success', `Welcome to room ${client.room}`);
+    });
+
+    client.on('bingo_gameStarting', data => {
+        client.to(`bingo_game_${client.room}`).emit('bingo_gameStarting', data);
+    });
+
+    client.on('bingo', data => {
+        client.to(`bingo_game_${client.room}`).emit('bingo', data);
+    });
+
+    client.on('playStocksGame', data => {
+        client.nick = data.nick;
+        client.room = data.room;
+        client.admin = data.admin;
+        client.game = 'stock_game';
+
+        const players = io.sockets.adapter.rooms[`stocks_game_${client.room}`];
+
+        if (players == undefined) {            
+            client.join(`stocks_game_${client.room}`);
+
+            const newRoom = JSON.parse(stocksRoomModel);
+
+            newRoom.room_id = client.room;
+
+            if (client.admin) {
+                newRoom.room_teacher = client.id;
+            } else {
+                newRoom.totalPlayers = newRoom.totalPlayers + 1;
+            }
+
+            fs.writeFileSync(`src/socket/stocksgame/rooms/${client.room}.json`, JSON.stringify(newRoom, null, 2));
+
+            client.emit('stocks_success', `Welcome to room ${client.room}`);
+        }
+
+        else {
+            client.join(`stocks_game_${client.room}`);
+
+            let room = [];
+            room = JSON.parse(fs.readFileSync(`src/socket/stocksgame/rooms/${client.room}.json`));
+
+            let joined = false;
+
+            if (client.admin) {
+                if (room.room_teacher !== null) {
+                    client.emit('stocks_failure', `Room ${client.room} already has a teacher.`);
+                    return;
+                }
+                else {
+                    room.room_teacher = client.id;
+                    joined = true;
+                }
+                    
+            } else {
+                room.totalPlayers = room.totalPlayers + 1;
+                joined = true;
+            }
+            
+            if (joined) {
+                fs.writeFileSync(`src/socket/stocksgame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+                client.emit('stocks_success', `Welcome to room ${client.room}`);
+            }
+        }
+    });
+
+    client.on('stocks_gameStarting', () => {
+        client.to(`stocks_game_${client.room}`).emit('stocks_gameStarting');
+    });
+
+    client.on('stocks_playerReady', () => {
+        let room = [];
+        room = JSON.parse(fs.readFileSync(`src/socket/stocksgame/rooms/${client.room}.json`));
+
+        room.playersReady = room.playersReady + 1;
+
+        fs.writeFileSync(`src/socket/stocksgame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+
+        if (room.playersReady == room.totalPlayers) {
+            client.emit('stocks_everyoneReady');
+            client.to(`stocks_game_${client.room}`).emit('stocks_everyoneReady');
+        }
+
+    });
+
+    client.on('stocks_playerResults', (data) => {
+        let room = [];
+        room = JSON.parse(fs.readFileSync(`src/socket/stocksgame/rooms/${client.room}.json`));
+
+        room.results.push(data);
+
+        if (room.results.length == room.totalPlayers) {
+            const ranking = room.results.sort(function(a, b) {
+                return parseFloat(a.bank) - parseFloat(b.bank);
+            });
+
+            client.emit('stocks_gameReport', ranking);
+            client.to(`stocks_game_${client.room}`).emit('stocks_gameReport', ranking);
+        }
+
+    });
+
 })
 
 app.listen(3333);
