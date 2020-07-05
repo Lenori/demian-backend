@@ -29,6 +29,11 @@ import StocksGame from '../app/models/StocksGame';
 import StocksGameStocks from '../app/models/StocksGameStocks';
 import StocksGameRoom from '../app/models/StocksGameRoom';
 
+import BoardGame from '../app/models/BoardGame';
+import BoardGameProperties from '../app/models/BoardGameProperties';
+import BoardGameCards from '../app/models/BoardGameCards';
+import BoardGameRoom from '../app/models/BoardGameRoom';
+
 const models = [
     User,
     
@@ -55,7 +60,12 @@ const models = [
 
     StocksGame,
     StocksGameStocks,
-    StocksGameRoom
+    StocksGameRoom,
+
+    BoardGame,
+    BoardGameProperties,
+    BoardGameCards,
+    BoardGameRoom
 ];
 
 class Database {

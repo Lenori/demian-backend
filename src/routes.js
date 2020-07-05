@@ -32,6 +32,10 @@ import StocksGameController from './app/controllers/StocksGameController';
 import StocksGameSessionController from './app/controllers/StocksGameSessionController';
 import StocksGameRoomController from './app/controllers/StocksGameRoomController';
 
+import BoardGameController from './app/controllers/BoardGameController';
+import BoardGameSessionController from './app/controllers/BoardGameSessionController';
+import BoardGameRoomController from './app/controllers/BoardGameRoomController';
+
 import authMiddleware from './app/middlewares/auth';
 import adminMiddleware from './app/middlewares/admin';
 
@@ -41,6 +45,7 @@ import sunkGameAuth from './app/middlewares/sunkGameAuth';
 import billGameAuth from './app/middlewares/billGameAuth';
 import bingoGameAuth from './app/middlewares/bingoGameAuth';
 import stocksGameAuth from './app/middlewares/stocksGameAuth';
+import boardGameAuth from './app/middlewares/boardGameAuth';
 
 const routes = new Router();
 
@@ -72,6 +77,9 @@ routes.get('/bingo-game', bingoGameAuth, BingoGameController.index);
 routes.post('/stocks-game', StocksGameSessionController.store);
 routes.get('/stocks-game', stocksGameAuth, StocksGameController.index);
 
+routes.post('/board-game', BoardGameSessionController.store);
+routes.get('/board-game', boardGameAuth, BoardGameController.index);
+
 routes.use(authMiddleware);
 
 routes.post('/rooms', RoomController.index);
@@ -100,6 +108,10 @@ routes.put('/bingo-game-room', BingoGameRoomController.update);
 routes.get('/stocks-game-room/:room', StocksGameRoomController.show);
 routes.post('/stocks-game-room', StocksGameRoomController.store);
 routes.put('/stocks-game-room', StocksGameRoomController.update);
+
+routes.get('/board-game-room/:room', BoardGameRoomController.show);
+routes.post('/board-game-room', BoardGameRoomController.store);
+routes.put('/board-game-room', BoardGameRoomController.update);
 
 routes.use(adminMiddleware);
 

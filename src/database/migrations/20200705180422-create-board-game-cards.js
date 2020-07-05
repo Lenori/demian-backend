@@ -2,20 +2,27 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('board_game', {
+    return queryInterface.createTable('board_game_cards', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
+      game_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {model: 'board_game', key: 'id'},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      money: {
+      code: {
         type: Sequelize.INTEGER,
         allowNull: false
+      },
+      text: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       created_at: {
         type: Sequelize.DATE,
@@ -29,6 +36,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('board_game');
+    return queryInterface.dropTable('board_game_cards');
   }
 };
