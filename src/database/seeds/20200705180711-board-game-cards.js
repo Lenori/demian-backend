@@ -39,25 +39,32 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          code: 4,
+          code: 5,
           text: 'Damage to your properties requires you to pay 25% of its value in repairs.',
           created_at: new Date(),
           updated_at: new Date()
         },
         {
           game_id: gameRows[0].id,
-          code: 5,
+          code: 6,
           text: 'Times are tough! Your tenants did not pay rent.',
           created_at: new Date(),
           updated_at: new Date()
         },
         {
           game_id: gameRows[0].id,
-          code: 6,
+          code: 7,
           text: 'Property tax is due pay 10% of all property values.',
           created_at: new Date(),
           updated_at: new Date()
-        }
+        },
+        {
+          game_id: gameRows[0].id,
+          code: 8,
+          text: 'No event.',
+          created_at: new Date(),
+          updated_at: new Date()
+        },
     ], {});
   },
 

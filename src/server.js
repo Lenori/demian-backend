@@ -7,6 +7,7 @@ const fs = require('fs');
 
 let roomModel = fs.readFileSync('src/socket/supplygame/rooms/models/room.json');
 let stocksRoomModel = fs.readFileSync('src/socket/stocksgame/rooms/models/room.json');
+let boardRoomModel = fs.readFileSync('src/socket/boardgame/rooms/models/room.json');
 
 io.on('connection', (client) => {
     client.on('playSupplyGame', data => {
@@ -239,7 +240,28 @@ io.on('connection', (client) => {
                 fs.writeFileSync(`src/socket/supplygame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
                 client.to(`supply_game_${client.room}`).emit('roomUpdate', room.teams);
             } 
-        }       
+        } else if (client.game == 'board_game') {
+            const players = io.sockets.adapter.rooms[`board_game_${client.room}`];
+
+            if (players == undefined) {
+                if (client.room) {
+                    fs.unlink(`src/socket/boardgame/rooms/${client.room}.json`, (err) => {if (err) throw err;})
+                }
+            } else {
+                let room = [];
+                room = JSON.parse(fs.readFileSync(`src/socket/boardgame/rooms/${client.room}.json`));
+                
+                if (client.admin) {
+                    room.room_teacher = null;
+                } else {
+                    const index = room.players.findIndex(player => player.id == client.id);
+                    room.players.splice(index, 1);                    
+                    room.totalPlayers = room.players.length;
+                }            
+                
+                fs.writeFileSync(`src/socket/boardgame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+            } 
+        }  
     })
 
     client.on('playBingoGame', data => {
@@ -348,7 +370,134 @@ io.on('connection', (client) => {
             client.emit('stocks_gameReport', ranking);
             client.to(`stocks_game_${client.room}`).emit('stocks_gameReport', ranking);
         }
+    });
 
+    client.on('playBoardGame', data => {
+        client.nick = data.nick;
+        client.room = data.room;
+        client.admin = data.admin;
+        client.game = 'board_game';
+
+        const players = io.sockets.adapter.rooms[`board_game_${client.room}`];
+
+        if (players == undefined) {            
+            client.join(`board_game_${client.room}`);
+
+            const newRoom = JSON.parse(boardRoomModel);
+
+            newRoom.room_id = client.room;
+
+            if (client.admin) {
+                newRoom.room_teacher = client.id;
+            } else {
+                newRoom.totalPlayers = newRoom.totalPlayers + 1;
+                newRoom.players.push({id: client.id, nick: client.nick});
+            }
+
+            fs.writeFileSync(`src/socket/boardgame/rooms/${client.room}.json`, JSON.stringify(newRoom, null, 2));
+
+            client.emit('board_success', `Welcome to room ${client.room}`);
+        }
+
+        else if (players.length <= 6) {
+            client.join(`board_game_${client.room}`);
+
+            let room = [];
+            room = JSON.parse(fs.readFileSync(`src/socket/boardgame/rooms/${client.room}.json`));
+
+            let joined = false;
+
+            if (client.admin) {
+                if (room.room_teacher !== null) {
+                    client.emit('board_failure', `Room ${client.room} already has a teacher.`);
+                    return;
+                }
+                else {
+                    room.room_teacher = client.id;
+                    joined = true;
+                }
+                    
+            } else {
+                room.totalPlayers = room.totalPlayers + 1;
+                room.players.push({id: client.id, nick: client.nick});
+                joined = true;
+            }
+            
+            if (joined) {
+                fs.writeFileSync(`src/socket/boardgame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+                client.emit('board_success', `Welcome to room ${client.room}`);
+            }
+        }
+
+        else
+            client.emit('board_failure', `Room ${client.room} is full.`);
+    })
+
+    client.on('board_gameStarting', () => {
+        let room = [];
+        room = JSON.parse(fs.readFileSync(`src/socket/boardgame/rooms/${client.room}.json`));
+
+        client.emit('board_listPlayers', room.players);
+        client.to(`board_game_${client.room}`).emit('board_listPlayers', room.players);
+
+        client.to(`board_game_${client.room}`).emit('board_gameStarting');
+
+    });
+
+    client.on('board_gameCard', data => {
+        client.to(`board_game_${client.room}`).emit('board_gameCard', data);
+    });
+
+    client.on('board_movePlayer', data => {
+        client.to(`board_game_${client.room}`).emit('board_movePlayer', data);
+    });
+
+    client.on('board_buyProperty', data => {
+        client.to(`board_game_${client.room}`).emit('board_propertyBought', data);
+    });
+
+    client.on('board_soldProperty', data => {
+        client.to(`board_game_${client.room}`).emit('board_soldProperty', data);
+    });
+
+    client.on('board_changeOwnership', data => {
+        client.to(`board_game_${client.room}`).emit('board_changeOwnership', data);
+    });
+
+    client.on('board_nextTurn', () => {
+        client.to(`board_game_${client.room}`).emit('board_nextTurn');
+    });
+
+    client.on('board_endRound', () => {
+        client.to(`board_game_${client.room}`).emit('board_endRound');
+    });
+
+    client.on('board_makeOffer', data => {
+        client.to(`board_game_${client.room}`).emit('board_receiveOffer', data);
+    });
+
+    client.on('board_acceptOffer', data => {
+        client.to(`board_game_${client.room}`).emit('board_buyProperty', data);
+    });
+
+    client.on('board_playerResults', (data) => {
+        if (!client.admin) {
+            let room = [];
+            room = JSON.parse(fs.readFileSync(`src/socket/boardgame/rooms/${client.room}.json`));
+
+            room.results.push(data);
+
+            if (room.results.length == room.totalPlayers) {
+                const ranking = room.results.sort(function(a, b) {
+                    return parseFloat(b.cash) - parseFloat(a.cash);
+                });
+
+                client.emit('board_gameReport', ranking);
+                client.to(`board_game_${client.room}`).emit('board_gameReport', ranking);
+            } else {
+                fs.writeFileSync(`src/socket/boardgame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+            }
+        }
     });
 
 })
