@@ -11,7 +11,7 @@ module.exports = {
       return queryInterface.bulkInsert('board_game_properties', [
         {
           game_id: gameRows[0].id,
-          name: 'New Jersey Avenue',
+          name: 'Main Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -21,7 +21,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'California Avenue',
+          name: 'Church Street',
           type: 'property',
           price: 280,
           rent: 70,
@@ -31,7 +31,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'South Carolina Avenue',
+          name: 'Main Street North',
           type: 'property',
           price: 230,
           rent: 40,
@@ -41,7 +41,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Florida Avenue',
+          name: 'Main Street South',
           type: 'property',
           price: 230,
           rent: 40,
@@ -61,7 +61,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Whitechapel Road',
+          name: 'Elm Street',
           type: 'property',
           price: 150,
           rent: 20,
@@ -71,7 +71,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Oriental Avenue',
+          name: 'Main Street West',
           type: 'property',
           price: 220,
           rent: 30,
@@ -81,7 +81,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Pall Mall',
+          name: 'Main Street East',
           type: 'property',
           price: 400,
           rent: 100,
@@ -91,7 +91,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'New York Avenue',
+          name: 'Park Avenue',
           type: 'property',
           price: 250,
           rent: 50,
@@ -101,7 +101,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Indiana Avenue',
+          name: '2nd Street',
           type: 'property',
           price: 230,
           rent: 40,
@@ -111,7 +111,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Oxford Street',
+          name: 'Walnut Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -121,7 +121,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Park Lane',
+          name: 'Chestnut Street',
           type: 'property',
           price: 270,
           rent: 70,
@@ -131,7 +131,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Boardwalk',
+          name: 'Maple Avenue',
           type: 'property',
           price: 230,
           rent: 30,
@@ -141,7 +141,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Liverpool Street',
+          name: 'Maple Street',
           type: 'property',
           price: 280,
           rent: 70,
@@ -161,7 +161,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Atlantic Road',
+          name: 'Broad Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -171,7 +171,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Chicago Avenue',
+          name: 'Oak Street',
           type: 'property',
           price: 220,
           rent: 20,
@@ -181,7 +181,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Twin Pines Mall',
+          name: 'Center Street',
           type: 'property',
           price: 400,
           rent: 100,
@@ -191,7 +191,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Brooklyn Avenue',
+          name: 'Pine Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -201,7 +201,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Toronto Avenue',
+          name: 'River Road',
           type: 'property',
           price: 250,
           rent: 50,
@@ -211,7 +211,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Queens Street',
+          name: 'Market Street',
           type: 'property',
           price: 240,
           rent: 40,
@@ -221,7 +221,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Central Park Avenue',
+          name: 'Water Street',
           type: 'property',
           price: 370,
           rent: 80,
@@ -231,7 +231,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Broadway Theater',
+          name: 'Union Street',
           type: 'property',
           price: 290,
           rent: 90,
@@ -241,7 +241,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Beverly Hills',
+          name: 'South Street',
           type: 'property',
           price: 380,
           rent: 90,
@@ -261,7 +261,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Bow Street',
+          name: 'Park Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -271,7 +271,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'King`s Cross Station',
+          name: '3rd Street',
           type: 'property',
           price: 230,
           rent: 30,
@@ -281,7 +281,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'North Carolina Avenue',
+          name: 'Washington Avenue',
           type: 'property',
           price: 250,
           rent: 50,
@@ -291,7 +291,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'States Avenue',
+          name: 'Cherry Street',
           type: 'property',
           price: 260,
           rent: 60,
@@ -301,7 +301,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Baltic Avenue',
+          name: 'North Street',
           type: 'property',
           price: 210,
           rent: 30,
@@ -311,7 +311,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Arizona Road',
+          name: '4th Street',
           type: 'property',
           price: 240,
           rent: 40,
@@ -321,7 +321,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Blue Water Mall',
+          name: 'Court Street',
           type: 'property',
           price: 400,
           rent: 100,
@@ -331,7 +331,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Marvin Gardens',
+          name: 'Highland Avenue',
           type: 'property',
           price: 350,
           rent: 80,
@@ -341,7 +341,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Maryland Street',
+          name: 'Mill Street',
           type: 'property',
           price: 270,
           rent: 70,
@@ -361,7 +361,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Fleet Street',
+          name: 'Franklin Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -371,7 +371,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Tennessee Avenue',
+          name: 'Prospect Street',
           type: 'property',
           price: 210,
           rent: 20,
@@ -381,7 +381,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Illinois Avenue',
+          name: 'School Street',
           type: 'property',
           price: 250,
           rent: 50,
@@ -391,7 +391,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Virginia Street',
+          name: 'Spring Street',
           type: 'property',
           price: 240,
           rent: 40,
