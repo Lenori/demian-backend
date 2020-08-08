@@ -4,7 +4,8 @@ class SunkGame extends Model {
     static init(sequelize) {
         super.init({
             name: Sequelize.STRING,
-            stocks: Sequelize.INTEGER
+            stocks: Sequelize.INTEGER,
+            description: Sequelize.TEXT
         },
         {
             sequelize,

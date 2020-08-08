@@ -40,11 +40,12 @@ class GamesController {
             limit: 1
         });
 
-        const {id, name} = budgetGame[0];
+        const {id, name, description} = budgetGame[0];
 
         const game = {
             id: id,
             name: name,
+            description: description,
             create_room: 'budget-game-room',
             play_room: 'budget-game'
         }
@@ -53,10 +54,12 @@ class GamesController {
 
         const id2 = supplyGame[0].id;
         const name2 = supplyGame[0].name;
+        const description2 = supplyGame[0].description;
 
         const game2 = {
             id: id2,
             name: name2,
+            description: description2,
             create_room: 'supply-game-room',
             play_room: 'supply-game'
         }
@@ -65,10 +68,12 @@ class GamesController {
 
         const id3 = sunkGame[0].id;
         const name3 = sunkGame[0].name;
+        const description3 = sunkGame[0].description;
 
         const game3 = {
             id: id3,
             name: name3,
+            description: description3,
             create_room: 'sunk-game-room',
             play_room: 'sunk-game'
         }
@@ -77,9 +82,11 @@ class GamesController {
 
         const id4 = billGame[0].id;
         const name4 = billGame[0].name;
+        const description4 = billGame[0].description;
 
         const game4 = {
             id: id4,
+            description: description4,
             name: name4,
             create_room: 'bill-game-room',
             play_room: 'bill-game'
@@ -89,9 +96,11 @@ class GamesController {
 
         const id5 = bingoGame[0].id;
         const name5 = bingoGame[0].name;
+        const description5 = bingoGame[0].description;
 
         const game5 = {
             id: id5,
+            description: description5,
             name: name5,
             create_room: 'bingo-game-room',
             play_room: 'bingo-game'
@@ -101,9 +110,11 @@ class GamesController {
 
         const id6 = stocksGame[0].id;
         const name6 = stocksGame[0].name;
+        const description6 = stocksGame[0].description;
 
         const game6 = {
             id: id6,
+            description: description6,
             name: name6,
             create_room: 'stocks-game-room',
             play_room: 'stocks-game'
@@ -113,9 +124,11 @@ class GamesController {
 
         const id7 = boardGame[0].id;
         const name7 = boardGame[0].name;
+        const description7 = boardGame[0].description;
 
         const game7 = {
             id: id7,
+            description: description7,
             name: name7,
             create_room: 'board-game-room',
             play_room: 'board-game'

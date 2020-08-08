@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      allowFrequency: {
+      allow_frequency: {
         type: Sequelize.BOOLEAN,
         default: false
       },

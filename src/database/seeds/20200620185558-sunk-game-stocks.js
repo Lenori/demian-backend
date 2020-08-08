@@ -24,7 +24,7 @@ module.exports = {
         },
         {
           game_id: gameRows[0].id,
-          name: 'Beta Premium Clothes',
+          name: 'Everest Clothing Company',
           buy_on_start: false,
           start_value: null,
           round_1: null,

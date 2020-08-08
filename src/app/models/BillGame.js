@@ -4,6 +4,7 @@ class BillGame extends Model {
     static init(sequelize) {
         super.init({
             name: Sequelize.STRING,
+            description: Sequelize.TEXT,
             money: Sequelize.INTEGER,
             score: Sequelize.INTEGER
         },

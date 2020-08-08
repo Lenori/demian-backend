@@ -3,7 +3,8 @@ import Sequelize, {Model} from 'sequelize';
 class SupplyGame extends Model {
     static init(sequelize) {
         super.init({
-            name: Sequelize.STRING
+            name: Sequelize.STRING,
+            description: Sequelize.TEXT
         },
         {
             sequelize,

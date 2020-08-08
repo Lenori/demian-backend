@@ -6,7 +6,8 @@ class BudgetGame extends Model {
             name: Sequelize.STRING,
             sallary: Sequelize.INTEGER,
             tax: Sequelize.INTEGER,
-            loan: Sequelize.INTEGER
+            loan: Sequelize.INTEGER,
+            description: Sequelize.TEXT
         },
         {
             sequelize,
