@@ -158,21 +158,28 @@ io.on('connection', (client) => {
             const pricing = room.stock.sort(function(a, b) {
                 return parseFloat(a.price) - parseFloat(b.price);
             });
-
-            let shirtDemand = room.roundShirts;                
+              
             const report = [];
 
-            pricing.map(team => {
+            pricing.map((team, index) => {
                 let sold = 0;
-                if (shirtDemand > 0) {
-                    if (team.shirts >= shirtDemand) {
-                        sold = shirtDemand;
-                        shirtDemand = 0;
-                    } else {
-                        sold = team.shirts;
-                        shirtDemand = shirtDemand - team.shirts;
-                    }
-                }                
+                let total = team.shirts * team.price;
+
+                if (index == 0) {
+                    sold = total * 0.45;
+                }
+                
+                if (index == 1) {
+                    sold = total * 0.35;
+                } 
+
+                if (index == 2) {
+                    sold = total * 0.15;
+                } 
+
+                if (index == 3) {
+                    sold = total * 0.05;
+                } 
                 
                 const sellReport = {
                     team: team.team,

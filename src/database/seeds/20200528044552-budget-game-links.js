@@ -376,7 +376,17 @@ module.exports = {
       allow_frequency: true,
       created_at: new Date(),
       updated_at: new Date()
-      }
+      },
+      {
+        link_id: linksRows[6].id,
+        name: 'No clothing',
+        cost: 0,
+        description: `You'll use the ones you already have`,
+        warning: null,
+        allow_frequency: true,
+        created_at: new Date(),
+        updated_at: new Date()
+        }
       ], {});
 
   },
