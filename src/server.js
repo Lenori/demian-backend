@@ -31,7 +31,7 @@ io.on('connection', (client) => {
                 newRoom.teams[0][0].name = client.nick;
                 newRoom.teams[0][0].id = client.id; 
             
-                client.emit('choosenTeam', 1);
+                client.emit('choosenTeam', {myTeam: 1, myId: client.id});
                 client.emit('capitain');
                 client.team = 1;
                 client.capitain = true; 
@@ -78,7 +78,7 @@ io.on('connection', (client) => {
                     })
                 })
                 
-                client.emit('choosenTeam', myTeam);
+                client.emit('choosenTeam', {myTeam: myTeam, myId: client.id});
                 client.team = myTeam;
                 
                 if (mySlot == 1) {
@@ -100,6 +100,53 @@ io.on('connection', (client) => {
         else
             client.emit('failure', `Room ${client.room} is full.`);
     })
+
+    client.on('changePlayerTeam', (data) => {
+        let room = [];
+        room = JSON.parse(fs.readFileSync(`src/socket/supplygame/rooms/${client.room}.json`));
+
+        room.teams.map(team => {
+            team.map(slot => {
+                if (slot.id == data.id) {
+                    slot.name = "";
+                    slot.id = "";
+                }
+            });
+        });
+
+        let capitain = false;
+        let joined = false;
+
+        room.teams.map((team, index) => {
+            if (index == data.newTeamIndex) {
+                team.map((slot, position) => {
+                    if (slot.id == "" && !joined) {
+                        slot.name = data.name;
+                        slot.id = data.id;
+
+                        if (position == 0) {
+                            capitain = true;
+                        }
+
+                        joined = true;
+                    }
+                });
+            }
+        });
+
+        let newTeamInfo = {
+            client: data.id,
+            myTeam: data.newTeamIndex + 1,
+            capitain: capitain
+        };
+
+        client.to(`supply_game_${client.room}`).emit('changeTeams', newTeamInfo);
+
+        fs.writeFileSync(`src/socket/supplygame/rooms/${client.room}.json`, JSON.stringify(room, null, 2));
+
+        client.emit('roomUpdate', room.teams);
+        client.to(`supply_game_${client.room}`).emit('roomUpdate', room.teams);
+    });
 
     client.on('gameStarting', () => {
         let room = [];
@@ -163,27 +210,34 @@ io.on('connection', (client) => {
 
             pricing.map((team, index) => {
                 let sold = 0;
+                let shirts = 0;
                 let total = team.shirts * team.price;
 
                 if (index == 0) {
                     sold = total * 0.45;
+                    shirts = Math.floor(team.shirts * 0.45);
                 }
                 
                 if (index == 1) {
                     sold = total * 0.35;
+                    shirts = Math.floor(team.shirts * 0.35);
                 } 
 
                 if (index == 2) {
                     sold = total * 0.15;
+                    shirts = Math.floor(team.shirts * 0.15);
                 } 
 
                 if (index == 3) {
                     sold = total * 0.05;
+                    shirts = Math.floor(team.shirts * 0.05);
                 } 
                 
                 const sellReport = {
                     team: team.team,
-                    sold: sold
+                    sold: sold,
+                    shirts: shirts,
+                    price: team.price
                 }
 
                 report.push(sellReport);

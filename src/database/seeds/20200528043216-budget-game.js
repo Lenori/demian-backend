@@ -7,7 +7,7 @@ module.exports = {
         description: `In this simulation you will pick the life you want. Remember budgeting isn’t about saving every dime you make, but rather it's about being able to buy some of things you want as long as you are willing to give up other things in return.`,
         sallary: 48000,
         tax: 20,
-        loan: 280,
+        loan: 150,
         created_at: new Date(),
         updated_at: new Date()
       }], {});
