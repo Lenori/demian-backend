@@ -59,17 +59,17 @@ routes.post('/sessions', SessionController.store);
 routes.get('/games', GamesController.index);
 
 routes.post('/budget-game', BudgetGameSessionController.store);
-routes.get('/budget-game', budgetGameAuth, BudgetGameController.index);
+routes.get('/budget-game', BudgetGameController.index);
 routes.post('/budget-game/results', budgetGameAuth, BudgetGameResultsController.create);
 
 routes.post('/supply-game', SupplyGameSessionController.store);
 routes.get('/supply-game', supplyGameAuth, SupplyGameController.index);
 
 routes.post('/sunk-game', SunkGameSessionController.store);
-routes.get('/sunk-game', sunkGameAuth, SunkGameController.index);
+routes.get('/sunk-game', SunkGameController.index);
 
 routes.post('/bill-game', BillGameSessionController.store);
-routes.get('/bill-game', billGameAuth, BillGameController.index);
+routes.get('/bill-game', BillGameController.index);
 
 routes.post('/bingo-game', BingoGameSessionController.store);
 routes.get('/bingo-game', bingoGameAuth, BingoGameController.index);
