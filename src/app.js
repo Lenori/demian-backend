@@ -3,9 +3,7 @@ import routes from './routes';
 
 import cors from 'cors';
 
-import './database';
-
-const whitelist = ['localhost', 'http://localhost:3000', 'https://projectkaidan.com']
+const whitelist = ['localhost', 'http://localhost:3000']
 const corsOptions = {
     credentials: true,
     allowedHeaders: '*',
