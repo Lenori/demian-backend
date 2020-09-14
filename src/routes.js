@@ -1,7 +1,8 @@
 import {Router} from 'express';
 
 import UserController from './app/controllers/UserController';
-import SessionController from './app/controllers/SessionController';
+import PlanosController from './app/controllers/PlanosController';
+import AulasController from './app/controllers/AulasController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -12,7 +13,10 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/users', UserController.store);
-routes.post('/sessions', SessionController.store);
+
+routes.get('/users/:id', UserController.read);
+routes.get('/planos', PlanosController.read);
+routes.get('/aulas', AulasController.read);
 
 routes.use(authMiddleware);
 

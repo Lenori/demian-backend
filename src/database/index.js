@@ -3,9 +3,13 @@ import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
 
 import User from '../app/models/User';
+import Planos from '../app/models/Planos';
+import Aulas from '../app/models/Aulas';
 
 const models = [
-    User
+    User,
+    Planos,
+    Aulas
 ];
 
 class Database {

@@ -7,9 +7,16 @@ class UserController {
     async store(req, res) {
         const schema = Yup.object().shape({
             name: Yup.string().required(),
-            email: Yup.string().email().required(),
-            pass: Yup.string().required().min(4),
-            confirmPass: Yup.string().required().oneOf([Yup.ref('pass')])
+            birthday: Yup.date().required(),
+            sex: Yup.number().required(),
+            rg: Yup.string().required(),
+            cpf: Yup.string().required(),
+            address: Yup.string().required(),
+            number: Yup.number().required(),
+            cep: Yup.string().required(),
+            cidade: Yup.string().required(),
+            estado: Yup.string().required(),
+            email: Yup.string().email().required()
         });
 
         try {            
@@ -32,7 +39,7 @@ class UserController {
                 .json({error: msg.user.create.error.err_email_already_exists});
         }
 
-        const {id, name, email, admin} = await User.create(req.body);        
+        const {id, name, email} = await User.create(req.body);        
 
         return res
             .status(200)
@@ -41,66 +48,28 @@ class UserController {
                 user: {
                     id: id,
                     name: name,
-                    email: email,
-                    admin: admin
+                    email: email
                     }
                 })
     }
 
-    async update(req, res) {
-        const schema = Yup.object().shape({
-            name: Yup.string(),
-            email: Yup.string().email(),
-            oldPassword: Yup.string().min(4),
-            pass: Yup.string().min(4).when('oldPassword', (oldPassword, field) => oldPassword ? field.required() : field),
-            confirmPass: Yup.string().when('pass', (pass, field) => pass ? field.required().oneOf([Yup.ref('pass')]) : field)
+    async read(req, res) {
+        const userExists = await User.findOne({
+            where: {
+                id: req.params.id
+            }
         });
 
-        try {            
-            await schema.validate(req.body);
-        } catch(err) {
+        if (!userExists) {
             return res
                 .status(400)
-                .json({error: err.errors});
+                .json({error: msg.user.read.error.err_user_not_exists});
         }
 
-        const {email, oldPassword} = req.body;
-
-        const user = await User.findByPk(req.userId);
-
-        if (email !== user.email) {
-            const userExists = await User.findOne({
-                where: {
-                    email: req.body.email
-                }
-            });
-    
-            if (userExists) {
-                return res
-                    .status(400)
-                    .json({error: msg.user.update.error.err_email_already_exists});
-            }
-        }
-
-        if (oldPassword && !(await user.checkPassword(oldPassword))) {
-            return res
-                .status(401)
-                .json({error: msg.user.update.error.err_password_not_match});
-        }
-
-        const newUser = await user.update(req.body);
-
-        const newName = newUser.name;
-        const newEmail = newUser.email;
-
+        const user = await User.findByPk(req.params.id)
         return res
-            .json({
-                success: msg.user.update.success,
-                user: {
-                    newName,
-                    newEmail
-                }
-            });
+            .status(200)
+            .json(user)
     }
 }
 

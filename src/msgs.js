@@ -1,26 +1,15 @@
 export default {
     user: {
-        create: {
+        read: {
             error: {
-                err_email_already_exists: 'E-mail already in use.'
-            },
-            success : 'User created successfully.'
+                err_user_not_exists: 'Usuário inexistente.'
+            }
         },
-        update: {
-            error: {
-                err_email_already_exists: 'E-mail already in use.',
-                err_password_not_match: 'Incorrect password'
-            },
-            success: 'User updated successfully.'
-        }
-    },
-    session: {
         create: {
             error: {
-                err_email_not_found: 'E-mail not found.',
-                err_password_not_match: 'Incorrect password'
+                err_email_already_exists: 'E-mail já cadastrado.'
             },
-            success: 'Login success'
+            success : 'Usuário criado com sucesso.'
         }
     }
 }
