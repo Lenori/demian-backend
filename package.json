@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "nodemonConfig": {
-    "ignore": ["src/socket/*.json"]
+    "ignore": [
+      "src/socket/*.json"
+    ]
   },
   "scripts": {
     "dev": "nodemon src/server.js",
@@ -18,6 +20,7 @@
     "express": "^4.17.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "moip-sdk-node": "^1.2.4",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.11",

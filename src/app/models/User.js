@@ -4,7 +4,7 @@ class User extends Model {
     static init(sequelize) {
         super.init({
             name: Sequelize.STRING,
-            birthday: Sequelize.DATE,
+            birthday: Sequelize.DATEONLY,
             sex: Sequelize.INTEGER,
             rg: Sequelize.STRING,
             cpf: Sequelize.STRING,
@@ -14,6 +14,7 @@ class User extends Model {
             cidade: Sequelize.STRING,
             estado: Sequelize.STRING,
             email: Sequelize.STRING,
+            wirecard_id: Sequelize.STRING
         },
         {
             sequelize

@@ -3,6 +3,8 @@ import msg from '../../msgs';
 
 import User from '../models/User';
 
+import {createWirecardCustomer} from '../../config/wirecard';
+
 class UserController {
     async store(req, res) {
         const schema = Yup.object().shape({
@@ -27,7 +29,7 @@ class UserController {
                 .json({error: err.errors});
         }
 
-        const userExists = await User.findOne({
+        let userExists = await User.findOne({
             where: {
                 email: req.body.email
             }
@@ -38,17 +40,48 @@ class UserController {
                 .status(400)
                 .json({error: msg.user.create.error.err_email_already_exists});
         }
+        
+        userExists = await User.findOne({
+            where: {
+                rg: req.body.rg
+            }
+        });
 
-        const {id, name, email} = await User.create(req.body);        
+        if (userExists) {
+            return res
+                .status(400)
+                .json({error: msg.user.create.error.err_rg_already_exists});
+        }
+
+        userExists = await User.findOne({
+            where: {
+                cpf: req.body.cpf
+            }
+        });
+
+        if (userExists) {
+            return res
+                .status(400)
+                .json({error: msg.user.create.error.err_cpf_already_exists});
+        } 
+
+        let newUser = await User.create(req.body);
+
+        await User.update(
+            {wirecard_id: await createWirecardCustomer(newUser)},
+            {where: {
+                id: newUser.id
+            }}
+        );
 
         return res
             .status(200)
             .json({
                 success: msg.user.create.success,
                 user: {
-                    id: id,
-                    name: name,
-                    email: email
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email
                     }
                 })
     }
