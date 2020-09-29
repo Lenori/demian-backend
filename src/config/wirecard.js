@@ -27,3 +27,63 @@ export async function createWirecardCustomer(customer) {
         console.log(err)
     });
 }
+
+export async function createWirecardOrder(order, pedido, customer) {
+    return await moip.order.create({
+        ownId: order.id,
+        amount: {
+            currency: 'BRL'
+        },
+        items: [{
+            product: pedido.name,
+            quantity: 1,
+            detail: pedido.description,
+            price: pedido.price
+        }],
+        customer: {
+            id: customer,
+        }
+    }).then((response) => {
+        return response.body.id;
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
+export async function createWirecardBoletoPayment(order) {
+    var expirationDate = new Date(new Date().getTime()+(3*24*60*60*1000));
+
+    var expirationYear = expirationDate.getFullYear();
+    var expirationMonth = expirationDate.getMonth() + 1;
+    var expirationDay = expirationDate.getDate();
+
+    return await moip.payment.create(order, {
+        installmentCount: 1,
+        fundingInstrument: {
+            method: "BOLETO",
+            boleto: {
+                expirationDate: expirationYear + '-' + ("0" + expirationMonth).slice(-2) + '-' + ("0" + expirationDay).slice(-2),
+                instructionLines: {
+                    first: "",
+                    second: "",
+                    third: ""
+                },
+                logoUri: "https://escolademianmaia.com.br/static/media/logo.facb62b7.png"
+            }
+        }
+    }).then((response) => {
+        return response.body;
+    }).catch((err) => {
+        console.log(err)
+    });
+}
+
+export async function getWirecardPayment(payment) {
+
+    return await moip.payment.getOne(payment)
+    .then((response) => {
+        return response.body;
+    }).catch((err) => {
+        console.log(err)
+    })
+}

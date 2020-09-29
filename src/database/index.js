@@ -5,11 +5,13 @@ import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import Planos from '../app/models/Planos';
 import Aulas from '../app/models/Aulas';
+import Order from '../app/models/Order';
 
 const models = [
     User,
     Planos,
-    Aulas
+    Aulas,
+    Order
 ];
 
 class Database {

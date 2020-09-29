@@ -3,15 +3,13 @@ import {promisify} from 'util';
 
 import authConfig from '../../config/auth';
 
-import msgs from '../../msgs';
-
 export default async (req, res, next) => {
     const auth = req.headers.authorization;
 
     if (!auth) {
         return res
             .status(400)
-            .json({error: msgs.auth.read.error.err_token_not_provided});
+            .json({error: 'token not provided'});
     }
 
     const [, token] = auth.split(' ');
@@ -26,6 +24,6 @@ export default async (req, res, next) => {
     } catch(err) {
         return res
             .status(401)
-            .json({error: msgs.auth.read.error.err_token_invalid});
+            .json({error: 'invalid token'});
     }
 }
