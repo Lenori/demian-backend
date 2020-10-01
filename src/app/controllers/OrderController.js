@@ -6,7 +6,7 @@ import User from '../models/User';
 import Planos from '../models/Planos';
 import Aulas from '../models/Aulas';
 
-import {createWirecardOrder, createWirecardBoletoPayment} from '../../config/wirecard';
+import {createWirecardOrder, createWirecardBoletoPayment, createWirecardCardPayment} from '../../config/wirecard';
 
 class OrderController {
     async store(req, res) {
@@ -15,7 +15,8 @@ class OrderController {
             plan_id: Yup.number().required(),
             user_id: Yup.number().required(),
             payment_method: Yup.string().required(),
-            price: Yup.number().required()
+            price: Yup.number().required(),
+            status: Yup.string().required()
         });
 
         try {            
@@ -54,8 +55,12 @@ class OrderController {
 
             const orderID = await createWirecardOrder(newOrder, pedido, customer.wirecard_id);
 
+            console.log('cchash', req.body.cchash);
+
             if (newOrder.payment_method == 'boleto') {
                 payment = await createWirecardBoletoPayment(orderID);
+            } else if (newOrder.payment_method == 'card') {
+                payment = await createWirecardCardPayment(orderID, req.body.cchash);
             }
 
             await Order.update(

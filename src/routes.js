@@ -5,6 +5,7 @@ import PlanosController from './app/controllers/PlanosController';
 import AulasController from './app/controllers/AulasController';
 import OrderController from './app/controllers/OrderController';
 import WirecardPaymentController from './app/controllers/WirecardPaymentController';
+import OrderNotificationsController from './app/controllers/OrderNotificationsController';
 
 const routes = new Router();
 
@@ -26,5 +27,7 @@ routes.post('/orders', OrderController.store);
 routes.get('/orders/:id', OrderController.read);
 
 routes.get('/wirecard_payments/:id', WirecardPaymentController.read);
+
+routes.get('/order_notifications/:source', OrderNotificationsController.read);
 
 export default routes;

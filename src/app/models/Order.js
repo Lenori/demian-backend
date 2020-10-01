@@ -9,7 +9,8 @@ class Order extends Model {
             payment_method: Sequelize.STRING,
             payment_id: Sequelize.STRING,
             price: Sequelize.INTEGER,
-            order_id: Sequelize.STRING
+            order_id: Sequelize.STRING,
+            status: Sequelize.STRING
         },
         {
             sequelize,

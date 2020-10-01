@@ -78,6 +78,23 @@ export async function createWirecardBoletoPayment(order) {
     });
 }
 
+export async function createWirecardCardPayment(order, cchash) {
+    return await moip.payment.create(order, {
+        installmentCount: 1,
+        statementDescriptor: 'DEMIANMAIA',
+        fundingInstrument: {
+            method: 'CREDIT_CARD',
+            creditCard: {
+                hash: cchash
+            }
+        }
+    }).then((response) => {
+        return response.body;
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
 export async function getWirecardPayment(payment) {
 
     return await moip.payment.getOne(payment)

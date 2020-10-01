@@ -8,6 +8,7 @@ class WirecardPaymentController {
             .status(200)
             .json({
                 method: order.fundingInstrument.method,
+                status: order.status,
                 links: order._links
             })
     }
