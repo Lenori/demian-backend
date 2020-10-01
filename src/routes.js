@@ -10,7 +10,7 @@ import OrderNotificationsController from './app/controllers/OrderNotificationsCo
 const routes = new Router();
 
 routes.get('/', (req, res) => {
-    return res.json({message: 'OK and online'});
+    return res.json({message: 'OK and online, after server renew'});
 });
 
 routes.post('/users', UserController.store);
