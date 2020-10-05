@@ -21,7 +21,7 @@ class Order extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.User, {foreignKey: 'userID', as: 'user'});
+        this.belongsTo(models.User, {foreignKey: 'user_id', as: 'user'});
     }
 }
 

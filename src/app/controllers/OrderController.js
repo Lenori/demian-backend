@@ -6,7 +6,7 @@ import User from '../models/User';
 import Planos from '../models/Planos';
 import Aulas from '../models/Aulas';
 
-import {createWirecardOrder, createWirecardBoletoPayment, createWirecardCardPayment} from '../../config/wirecard';
+import {createWirecardOrder, createWirecardBoletoPayment, createWirecardCardPayment, getWirecardPayment} from '../../config/wirecard';
 
 class OrderController {
     async store(req, res) {
@@ -55,17 +55,23 @@ class OrderController {
 
             const orderID = await createWirecardOrder(newOrder, pedido, customer.wirecard_id);
 
-            console.log('cchash', req.body.cchash);
+            await Order.update(
+                {
+                    order_id: orderID
+                },
+                {where: {
+                    id: newOrder.id
+                }}
+            );
 
             if (newOrder.payment_method == 'boleto') {
                 payment = await createWirecardBoletoPayment(orderID);
             } else if (newOrder.payment_method == 'card') {
-                payment = await createWirecardCardPayment(orderID, req.body.cchash);
+                payment = await createWirecardCardPayment(orderID, req.body.cchash, req.body.holder);
             }
 
             await Order.update(
                 {
-                    order_id: orderID,
                     payment_id: payment.id
                 },
                 {where: {
@@ -86,22 +92,35 @@ class OrderController {
     }
 
     async read(req, res) {
-        const orderExists = await Order.findOne({
+        const order = await Order.findOne({
             where: {
-                id: req.params.id
-            }
+                order_id: req.params.id
+            },
+            include: [{
+                model: User,
+                as: 'user'
+            }]
         });
 
-        if (!orderExists) {
-            return res
-                .status(400)
-                .json({error: msg.order.read.error.err_order_not_exists});
+        let plan = [];
+
+        if (order.plan_type == '1') {
+            plan = await Planos.findByPk(order.plan_id);
+        } else if (order.plan_type == '2') {
+            plan = await Aulas.findByPk(order.plan_id);
         }
 
-        const order = await Order.findByPk(req.params.id)
+        const payment = await getWirecardPayment(order.payment_id);
+
+        if (!order) {
+            return res
+                .status(400)
+                .json({error: msg.orders.read.error.err_order_not_exists});
+        }
+
         return res
             .status(200)
-            .json(order)
+            .json({order, plan, payment})
     }
 }
 

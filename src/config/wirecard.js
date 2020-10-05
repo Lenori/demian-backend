@@ -78,14 +78,30 @@ export async function createWirecardBoletoPayment(order) {
     });
 }
 
-export async function createWirecardCardPayment(order, cchash) {
+export async function createWirecardCardPayment(order, cchash, holder) {
+    var birthday = new Date(holder.birthday);
+
+    var birthdayYear = birthday.getFullYear();
+    var birthdayMonth = birthday.getMonth() + 1;
+    var birthdayDay = birthday.getDate();
+
+    var birthDate = birthdayYear + '-' + birthdayMonth + '-' + birthdayDay;
+
     return await moip.payment.create(order, {
         installmentCount: 1,
         statementDescriptor: 'DEMIANMAIA',
         fundingInstrument: {
             method: 'CREDIT_CARD',
             creditCard: {
-                hash: cchash
+                hash: cchash,
+                holder: {
+                    birthdate: birthDate,
+                    taxDocument: {
+                        type: 'CPF',
+                        number: holder.cpf
+                    },
+                    fullname: holder.name
+                }
             }
         }
     }).then((response) => {
