@@ -24,6 +24,17 @@ class OrderNotificationsController {
                 }}
             );
         }
+
+        if (req.params.source == 'picpay') {
+            await Order.update(
+                {
+                    status: req.body.status
+                },
+                {where: {
+                    id: req.body.referenceId
+                }}
+            );
+        }
     }
 }
 

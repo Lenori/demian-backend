@@ -24,6 +24,7 @@ routes.get('/aulas', AulasController.index);
 routes.get('/aulas/:id', AulasController.read);
 
 routes.post('/orders', OrderController.store);
+routes.get('/orders', OrderController.index);
 routes.get('/orders/:id', OrderController.read);
 
 routes.get('/wirecard_payments/:id', WirecardPaymentController.read);

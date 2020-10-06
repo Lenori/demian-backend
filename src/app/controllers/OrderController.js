@@ -77,18 +77,42 @@ class OrderController {
                 {where: {
                     id: newOrder.id
                 }}
-            );
+            );            
+
+            return res
+                .status(200)
+                .json({
+                    success: msg.orders.create.success,
+                    order: {
+                            id: newOrder.id,
+                            wirecard_payment_id: payment.id
+                        }
+                    });
         }
 
-        return res
-            .status(200)
-            .json({
-                success: msg.orders.create.success,
-                order: {
-                        id: newOrder.id,
-                        wirecard_payment_id: payment.id
-                    }
-                })
+        if (newOrder.payment_method == 'paypal') {
+
+            console.log(newOrder);
+
+            await Order.update(
+                {
+                    payment_id: req.body.paypalPayment.paymentID
+                },
+                {where: {
+                    id: newOrder.id
+                }}
+            ); 
+
+            return res
+                .status(200)
+                .json({
+                    success: msg.orders.create.success,
+                    order: {
+                            id: newOrder.id,
+                            payment_id: req.body.paypalPayment.paymentID
+                        }
+                    });
+        }
     }
 
     async read(req, res) {
@@ -121,6 +145,22 @@ class OrderController {
         return res
             .status(200)
             .json({order, plan, payment})
+    }
+
+    async index(req, res) {
+        const orders = await Order.findAll({
+            include: [{
+                model: User,
+                as: 'user'
+            }],
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        });
+
+        return res
+            .status(200)
+            .json({orders})
     }
 }
 

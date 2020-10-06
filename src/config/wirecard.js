@@ -38,7 +38,7 @@ export async function createWirecardOrder(order, pedido, customer) {
             product: pedido.name,
             quantity: 1,
             detail: pedido.description,
-            price: pedido.price
+            price: pedido.price * 100
         }],
         customer: {
             id: customer,
