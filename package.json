@@ -15,16 +15,20 @@
   },
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.2",
+    "@sentry/node": "^5.25.0",
+    "@sentry/tracing": "^5.25.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "moip-sdk-node": "^1.2.4",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.11",
+    "youch": "^2.1.1",
     "yup": "^0.29.1"
   },
   "devDependencies": {
