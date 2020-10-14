@@ -4,37 +4,26 @@ module.exports = {
   up: (queryInterface, Sequelize) => {    
       return queryInterface.bulkInsert('planosRegulares', [
         {
-          name: 'Recorrente / Masculino Full',
+          name: 'Masculino Full',
           description: 'ALUNOS A PARTIR DE 15 ANOS DE IDADE',
           price: 359,
+          link: 'https://evo-totem.w12app.com.br/demianmaia/1/site/QhXXzoY7OMy%5BPLUS%5DFpULG15Wrw%5BEQUAL%5D%5BEQUAL%5D',
           created_at: new Date(),
           updated_at: new Date()
         },
         {
-          name: 'Recorrente / Kids Full',
+          name: 'Kids Full',
           description: 'ALUNOS DE 5 A 14 ANOS DE IDADE',
           price: 269,
+          link: 'https://evo-totem.w12app.com.br/demianmaia/1/site/%5BPLUS%5DeIL%5BPLUS%5DfzZNcy7Gt%5BBAR%5DPl5KIrQ%5BEQUAL%5D%5BEQUAL%5D',
           created_at: new Date(),
           updated_at: new Date()
         },
         {
-          name: 'Recorrente / Feminino Full',
+          name: 'Feminino Full',
           description: 'ALUNOS A PARTIR DE 15 ANOS DE IDADE',
           price: 299,
-          created_at: new Date(),
-          updated_at: new Date()
-        },
-        {
-          name: 'Anual',
-          description: 'ECONOMIA DE 20% NESTE PLANO',
-          price: 3590,
-          created_at: new Date(),
-          updated_at: new Date()
-        },
-        {
-          name: 'Diária',
-          description: 'DIVERSOS PÚBLICOS',
-          price: 3590,
+          link: 'https://evo-totem.w12app.com.br/demianmaia/1/site/0GaE9Ux52vXSBHXLH2E5hg%5BEQUAL%5D%5BEQUAL%5D',
           created_at: new Date(),
           updated_at: new Date()
         }

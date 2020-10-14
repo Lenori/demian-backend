@@ -5,7 +5,8 @@ class Aulas extends Model {
         super.init({
             name: Sequelize.STRING,
             description: Sequelize.STRING,
-            price: Sequelize.INTEGER
+            price: Sequelize.INTEGER,
+            link: Sequelize.STRING
         },
         {
             sequelize,
