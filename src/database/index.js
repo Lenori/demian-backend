@@ -6,12 +6,14 @@ import User from '../app/models/User';
 import Planos from '../app/models/Planos';
 import Aulas from '../app/models/Aulas';
 import Order from '../app/models/Order';
+import Info from '../app/models/Info';
 
 const models = [
     User,
     Planos,
     Aulas,
-    Order
+    Order,
+    Info
 ];
 
 class Database {

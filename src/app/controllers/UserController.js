@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import msg from '../../msgs';
 
 import User from '../models/User';
+import Info from '../models/Info';
 
 import {createWirecardCustomer} from '../../config/wirecard';
 
@@ -67,12 +68,15 @@ class UserController {
 
         let newUser = await User.create(req.body);
 
-        await User.update(
-            {wirecard_id: await createWirecardCustomer(newUser)},
-            {where: {
-                id: newUser.id
-            }}
-        );
+        const infoData = {
+            user: newUser.id,
+            already_practice: req.body.already_practice,
+            other_sport: req.body.other_sport,
+            hobbies: req.body.hobbies,
+            opinion: req.body.opinion,
+        }
+
+        await Info.create(infoData);
 
         return res
             .status(200)
