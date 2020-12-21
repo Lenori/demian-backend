@@ -14,12 +14,19 @@ const corsOptions = {
     credentials: true,
     allowedHeaders: '*',
     origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            let msg = 'Blocked origin.';
+        if (origin && whitelist.indexOf(origin) === -1) {
+            let msg = `Blocked origin.`;
             return callback(new Error(msg), false);
-        } else {
-            callback(null, true)
+        } else if (!origin) {
+            if (process.env.NODE_ENV == 'development') {
+                return callback(null, true)
+            }
+
+            let msg = `Request without origins are blocked.`;
+            return callback(new Error(msg), false);
         }
+
+        return callback(null, true)
     }
 }
 
@@ -37,7 +44,6 @@ class App {
     middlewares() {
         this.server.use(Sentry.Handlers.requestHandler()); // error handler
         this.server.use(cors(corsOptions));
-        this.server.options('*', cors());
         this.server.use(express.json());
         this.server.use(express.static('public'));
     }
