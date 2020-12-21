@@ -7,13 +7,19 @@ import Planos from '../app/models/Planos';
 import Aulas from '../app/models/Aulas';
 import Order from '../app/models/Order';
 import Info from '../app/models/Info';
+import Images from '../app/models/Images';
+import Texts from '../app/models/Texts';
+import Links from '../app/models/Links';
 
 const models = [
     User,
     Planos,
     Aulas,
     Order,
-    Info
+    Info,
+    Images,
+    Texts,
+    Links
 ];
 
 class Database {

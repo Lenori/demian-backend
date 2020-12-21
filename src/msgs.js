@@ -14,6 +14,27 @@ export default {
             success: 'Usuário criado com sucesso.'
         }
     },
+    texts: {
+        read: {
+            error: {
+                err_text_not_exists: 'Texto inexistente.'
+            }
+        }
+    },
+    links: {
+        read: {
+            error: {
+                err_link_not_exists: 'Link inexistente.'
+            }
+        }
+    },
+    images: {
+        read: {
+            error: {
+                err_image_not_exists: 'Imagem inexistente.'
+            }
+        }
+    },
     planos: {
         read: {
             error: {

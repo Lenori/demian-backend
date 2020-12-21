@@ -6,6 +6,9 @@ import AulasController from './app/controllers/AulasController';
 import OrderController from './app/controllers/OrderController';
 import WirecardPaymentController from './app/controllers/WirecardPaymentController';
 import OrderNotificationsController from './app/controllers/OrderNotificationsController';
+import ImagesController from './app/controllers/ImagesController';
+import TextsController from './app/controllers/TextsController';
+import LinksController from './app/controllers/LinksController';
 
 const routes = new Router();
 
@@ -30,5 +33,14 @@ routes.get('/orders/:id', OrderController.read);
 routes.get('/wirecard_payments/:id', WirecardPaymentController.read);
 
 routes.get('/order_notifications/:source', OrderNotificationsController.read);
+
+routes.get('/texts', TextsController.index);
+routes.get('/texts/:id', TextsController.read);
+
+routes.get('/images', ImagesController.index);
+routes.get('/images/:id', ImagesController.read);
+
+routes.get('/links', LinksController.index);
+routes.get('/links/:id', LinksController.read);
 
 export default routes;
