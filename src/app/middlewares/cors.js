@@ -6,14 +6,6 @@ export default async (req, res, next) => {
             .status(401)
             .json({error: 'Origin not allowed.'});
     }
-    
-    if (!req.header('Origin')) {
-        if (!process.env.NODE_ENV === 'development') {
-            return res
-                .status(401)
-                .json({error: 'Request denied.'});
-        }
-    }
 
     return next();
 }

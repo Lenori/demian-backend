@@ -10,6 +10,7 @@ import cors from 'cors';
 
 const corsOptions = {
     credentials: true,
+    allowedHeaders: '*',
     origin: function (origin, callback) {
         return callback(null, true)
     }
