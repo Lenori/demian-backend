@@ -10,11 +10,15 @@ import ImagesController from './app/controllers/ImagesController';
 import TextsController from './app/controllers/TextsController';
 import LinksController from './app/controllers/LinksController';
 
+import CorsMiddleware from './app/middlewares/cors';
+
 const routes = new Router();
 
 routes.get('/', (req, res) => {
     return res.json({message: 'OK and online, after server renew'});
 });
+
+routes.use(CorsMiddleware);
 
 routes.post('/users', UserController.store);
 
