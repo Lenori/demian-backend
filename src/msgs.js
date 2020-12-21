@@ -19,6 +19,13 @@ export default {
             error: {
                 err_text_not_exists: 'Texto inexistente.'
             }
+        },
+        update: {
+            error: {
+                err_text_not_exists: 'Texto inexistente.',
+                err_request_format_invalid: 'Formato inválido.'
+            },
+            success: 'Texto alterado com sucesso.'
         }
     },
     links: {
@@ -26,6 +33,13 @@ export default {
             error: {
                 err_link_not_exists: 'Link inexistente.'
             }
+        },
+        update: {
+            error: {
+                err_link_not_exists: 'Link inexistente.',
+                err_request_format_invalid: 'Formato inválido.'
+            },
+            success: 'Link alterado com sucesso.'
         }
     },
     images: {
@@ -47,6 +61,13 @@ export default {
             error: {
                 err_aula_not_exists: 'Aula inexistente.'
             }
+        },
+        update: {
+            error: {
+                err_aula_not_exists: 'Aula inexistente.',
+                err_request_format_invalid: 'Formato inválido.'
+            },
+            success: 'Aula alterada com sucesso.'
         }
     },
     orders: {

@@ -3,7 +3,7 @@ import msg from '../../msgs';
 
 class ImagesController {
     async index(req, res) {
-        const images = await Images.findAll();
+        const images = await Images.findAll({order: ['id']});
         return res
             .status(200)
             .json(images)

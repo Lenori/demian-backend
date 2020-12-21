@@ -3,7 +3,7 @@ import msg from '../../msgs';
 
 class PlanosController {
     async index(req, res) {
-        const planos = await Planos.findAll();
+        const planos = await Planos.findAll({order: ['id']});
         return res
             .status(200)
             .json(planos)

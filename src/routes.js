@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import multer from 'multer';
 
 import UserController from './app/controllers/UserController';
 import PlanosController from './app/controllers/PlanosController';
@@ -12,7 +13,10 @@ import LinksController from './app/controllers/LinksController';
 
 import CorsMiddleware from './app/middlewares/cors';
 
+import multerConfig from './config/multer'
+
 const routes = new Router();
+const upload = multer(multerConfig);
 
 routes.get('/', (req, res) => {
     return res.json({message: 'OK and online, after server renew'});
@@ -46,5 +50,12 @@ routes.get('/images/:id', ImagesController.read);
 
 routes.get('/links', LinksController.index);
 routes.get('/links/:id', LinksController.read);
+
+routes.post('/texts', TextsController.update);
+
+routes.post('/aulas', AulasController.update);
+
+routes.post('/links/file', upload.single('file'), LinksController.update);
+routes.post('/links', LinksController.update);
 
 export default routes;
