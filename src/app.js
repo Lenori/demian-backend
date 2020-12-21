@@ -44,7 +44,13 @@ class App {
     middlewares() {
         this.server.use(Sentry.Handlers.requestHandler()); // error handler
         this.server.use(cors(corsOptions));
-        this.server.options('*', cors());
+        this.server.options('*', cors(corsOptions));
+
+        this.server.use(function (req, res, next) {
+            res.setHeader('Access-Control-Allow-Origin', 'https://escolademianmaia.com.br');
+            next();
+        });
+
         this.server.use(express.json());
         this.server.use(express.static('public'));
     }
