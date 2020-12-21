@@ -8,15 +8,17 @@ import './database';
 
 import cors from 'cors';
 
-const whitelist = ['localhost', 'http://localhost:3000']
+const whitelist = ['localhost', 'http://localhost:3000', 'http://escolademianmaia.com.br']
+
 const corsOptions = {
     credentials: true,
     allowedHeaders: '*',
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
+            let msg = 'Blocked origin.';
+            return callback(new Error(msg), false);
         } else {
-        callback(null, true)
+            callback(null, true)
         }
     }
 }
