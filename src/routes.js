@@ -55,6 +55,8 @@ routes.post('/texts', TextsController.update);
 
 routes.post('/aulas', AulasController.update);
 
+routes.post('/planos', PlanosController.update);
+
 routes.post('/links/file', upload.single('file'), LinksController.update);
 routes.post('/links', LinksController.update);
 

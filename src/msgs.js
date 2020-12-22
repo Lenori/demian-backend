@@ -54,6 +54,13 @@ export default {
             error: {
                 err_plano_not_exists: 'Plano inexistente.'
             }
+        },
+        update: {
+            error: {
+                err_plano_not_exists: 'Plano inexistente.',
+                err_request_format_invalid: 'Formato inválido.'
+            },
+            success: 'Plano alterado com sucesso.'
         }
     },
     aulas: {
