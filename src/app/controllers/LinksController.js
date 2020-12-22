@@ -31,7 +31,6 @@ class LinksController {
     }
 
     async update(req, res) {
-        console.log(req.body);
         const schema = Yup.object().shape({
             id: Yup.number().required(),
             link: Yup.string().required()
