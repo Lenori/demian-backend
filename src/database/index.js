@@ -10,6 +10,7 @@ import Info from '../app/models/Info';
 import Images from '../app/models/Images';
 import Texts from '../app/models/Texts';
 import Links from '../app/models/Links';
+import Trials from '../app/models/Trials';
 
 const models = [
     User,
@@ -19,7 +20,8 @@ const models = [
     Info,
     Images,
     Texts,
-    Links
+    Links,
+    Trials
 ];
 
 class Database {

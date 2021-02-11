@@ -42,6 +42,16 @@ export default {
             success: 'Link alterado com sucesso.'
         }
     },
+    trial: {
+        create: {
+            success: 'Agendamento de teste realizado com sucesso!'
+        },
+        read: {
+            error: {
+                err_trial_not_exists: 'Agendamento inexistente.'
+            }
+        }
+    },
     images: {
         read: {
             error: {

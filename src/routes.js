@@ -10,6 +10,7 @@ import OrderNotificationsController from './app/controllers/OrderNotificationsCo
 import ImagesController from './app/controllers/ImagesController';
 import TextsController from './app/controllers/TextsController';
 import LinksController from './app/controllers/LinksController';
+import TrialsController from './app/controllers/TrialsController';
 
 import CorsMiddleware from './app/middlewares/cors';
 
@@ -25,7 +26,6 @@ routes.get('/', (req, res) => {
 routes.use(CorsMiddleware);
 
 routes.post('/users', UserController.store);
-
 routes.get('/users/:id', UserController.read);
 
 routes.get('/planos', PlanosController.index);
@@ -59,5 +59,9 @@ routes.post('/planos', PlanosController.update);
 
 routes.post('/links/file', upload.single('file'), LinksController.update);
 routes.post('/links', LinksController.update);
+
+routes.post('/trials', TrialsController.store);
+routes.get('/trials', TrialsController.index);
+routes.get('/trials/:id', TrialsController.read);
 
 export default routes;
