@@ -54,7 +54,7 @@ class TrialsController {
     }
 
     async index(req, res) {
-        const trials = await Trials.findAll({order: ['id']});
+        const trials = await Trials.findAll({order: [['id', 'DESC']]});
         return res
             .status(200)
             .json(trials)

@@ -112,7 +112,7 @@ class UserController {
     async index(req, res) {
         const users = await User.findAll(
                 {
-                    order: ['id'],
+                    order: [['id', 'DESC']],
                     include: [{
                         model: Info,
                         as: 'userInfo'
