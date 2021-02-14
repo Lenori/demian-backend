@@ -14,6 +14,7 @@ class User extends Model {
             cidade: Sequelize.STRING,
             estado: Sequelize.STRING,
             email: Sequelize.STRING,
+            phone: Sequelize.STRING,
             wirecard_id: Sequelize.STRING
         },
         {
