@@ -16,10 +16,6 @@ class Info extends Model {
 
         return this;
     }
-
-    static associate(models) {
-        this.belongsTo(models.User, {foreignKey: 'user_id', as: 'userInfo'});
-    }
 }
 
 export default Info;

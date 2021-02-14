@@ -108,6 +108,21 @@ class UserController {
             .status(200)
             .json(user)
     }
+
+    async index(req, res) {
+        const users = await User.findAll(
+                {
+                    order: ['id'],
+                    include: [{
+                        model: Info,
+                        as: 'userInfo'
+                    }]
+                }            
+            );
+        return res
+            .status(200)
+            .json(users)
+    }
 }
 
 export default new UserController();

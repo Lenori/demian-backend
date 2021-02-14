@@ -26,6 +26,7 @@ routes.get('/', (req, res) => {
 routes.use(CorsMiddleware);
 
 routes.post('/users', UserController.store);
+routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.read);
 
 routes.get('/planos', PlanosController.index);

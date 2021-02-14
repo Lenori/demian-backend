@@ -22,6 +22,10 @@ class User extends Model {
 
         return this;
     }
+
+    static associate(models) {
+        this.hasOne(models.Info, {foreignKey: 'user', as: 'userInfo'});
+    }
 }
 
 export default User;
